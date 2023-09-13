@@ -13,8 +13,9 @@ function get_ally_lowest_health()
     -- Gets the party member who has lost the most health so far
     local num_group_members = GetNumGroupMembers()
 
-    local most_health_lost = 0
-    local player_with_most_health_lost = "party" .. 1
+    -- Initialize as the player. 
+    local most_health_lost = OPTI_GetUnitLostHealthPercent("player")
+    local player_with_most_health_lost = "player"
 
     for i = 1, num_group_members do
         local unit = "party" .. i
@@ -33,13 +34,6 @@ end
 
 function _G.OPTI_GroupHealing(percent)
     local targetFound = false
-
-    -- Check player Health
-    local playerHealthPercent = OPTI_GetUnitLostHealthPercent("player")
-    if playerHealthPercent >= percent then
-        UnlockedTargetUnit("player")
-        targetFound = true
-    end
 
     -- If the player does not fall below the threshold and he is in a group,
     -- then check the rest of the group members
