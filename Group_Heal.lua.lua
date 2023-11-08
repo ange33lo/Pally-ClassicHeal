@@ -63,7 +63,7 @@ function _G.OPTI_GroupHealing(percent)
         local person_to_heal = get_ally_lowest_health()
         local health_percent = OPTI_GetUnitLostHealthPercent(person_to_heal)
 
-        if health_percent >= percent and health_percent < 100 then
+        if health_percent >= percent then
             UnlockedTargetUnit(person_to_heal)
             targetFound = true
         end
