@@ -32,18 +32,35 @@ function get_ally_lowest_health()
 end
 
 
-function get_ally_without_debuff(debuffCode)
+function has_debuff_name(unit, debuff)
+    local i = 1
+    while true do
+        local data = {UnitDebuff(unit, i)}
+        local name = data[1]
+        if not name then
+            break
+        end
+        if name == debuff then
+            return true
+        end
+        i = i + 1
+    end
+    return false
+end
+
+
+function get_ally_without_debuff(debuff)
     -- Gets a party member who doesn't have the debuff
     local num_group_members = GetNumGroupMembers()
 
     -- Initialize as the player. 
-    if not HasDebuff("player", debuffCode, true) then
+    if not has_debuff_name("player", debuff) then
         return "player"
     end
 
     for i = 1, num_group_members do
         local unit = "party" .. i
-        if not HasDebuff(unit, debuffCode, true) then
+        if not has_debuff_name(unit, debuff) then
             return unit
         end
     end
@@ -72,14 +89,14 @@ function _G.OPTI_GroupHealing(percent)
 end
 
 
-function _G.OPTI_GroupBuffing(debuffCode)
+function _G.OPTI_GroupBuffing(debuff)
     local targetFound = false
 
     -- If the player does not fall below the threshold and he is in a group,
     -- then check the rest of the group members
     if not targetFound and IsInGroup() then
         
-        local person_to_buff = get_ally_without_debuff(debuffCode)
+        local person_to_buff = get_ally_without_debuff(debuff)
         if person_to_buff then
             UnlockedTargetUnit(person_to_buff)
             targetFound = true
