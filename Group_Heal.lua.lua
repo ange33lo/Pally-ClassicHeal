@@ -33,19 +33,14 @@ end
 
 
 function has_debuff_name(unit, debuff)
-    local i = 1
-    while true do
-        local data = {UnitDebuff(unit, i)}
-        local name = data[1]
-        if not name then
-            break
-        end
-        if name == debuff then
-            return true
-        end
-        i = i + 1
+    local data = {UnitDebuff(unit, debuff)}
+    local name = data[1]
+
+    if not name then
+        return false
     end
-    return false
+
+    return true
 end
 
 
@@ -54,9 +49,9 @@ function get_ally_without_debuff(debuff)
     local num_group_members = GetNumGroupMembers()
 
     -- Initialize as the player. 
-    -- if not has_debuff_name("player", debuff) then
-    --     return "player"
-    -- end
+    if not has_debuff_name("player", debuff) then
+        return "player"
+    end
 
     for i = 1, num_group_members do
         local unit = "party" .. i
