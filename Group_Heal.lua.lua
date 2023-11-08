@@ -54,9 +54,9 @@ function get_ally_without_debuff(debuff)
     local num_group_members = GetNumGroupMembers()
 
     -- Initialize as the player. 
-    if not has_debuff_name("player", debuff) then
-        return "player"
-    end
+    -- if not has_debuff_name("player", debuff) then
+    --     return "player"
+    -- end
 
     for i = 1, num_group_members do
         local unit = "party" .. i
