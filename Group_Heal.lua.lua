@@ -34,7 +34,7 @@ end
 
 function has_debuff_name(unit, debuff)
     for i = 1, 40 do
-        name = UnitDebuff(unit, i)
+        local name = UnitDebuff(unit, i)
         if name and name == debuff then
             return true
         end
