@@ -33,14 +33,13 @@ end
 
 
 function has_debuff_name(unit, debuff)
-    local data = {UnitDebuff(unit, debuff)}
-    local name = data[1]
-    print("Spell name is " .. name)
-    if not name then
-        return false
+    for i = 1, 40 do
+        local name = UnitDebuff(unit, i)
+        if name and name == debuff then
+            return true
+        end
     end
-
-    return true
+    return false
 end
 
 
@@ -49,19 +48,18 @@ function get_ally_without_debuff(debuff)
     local num_group_members = GetNumGroupMembers()
 
     -- Initialize as the player. 
-    if not has_debuff_name("player", debuff) then
+    if has_debuff_name("player", debuff) then
+        for i = 1, num_group_members do
+            local unit = "party" .. i
+            if not has_debuff_name(unit, debuff) then
+                return unit
+            end
+        end
+    else
         return "player"
     end
-
-    for i = 1, num_group_members do
-        local unit = "party" .. i
-        if not has_debuff_name(unit, debuff) then
-            return unit
-        end
-    end
-
+    
     return nil
-
 end
 
 
