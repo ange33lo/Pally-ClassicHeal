@@ -35,7 +35,7 @@ end
 function has_debuff_name(unit, debuff)
     local data = {UnitDebuff(unit, debuff)}
     local name = data[1]
-
+    print("Spell name is " .. name)
     if not name then
         return false
     end
